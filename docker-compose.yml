@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:11.1
+    ports:
+      - 5432:5432
+    volumes:
+      - kekeek-postgres:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    restart: unless-stopped
+
+volumes:
+  kekeek-postgres:
