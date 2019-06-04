@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/content")
+@RequestMapping("/contents")
 public class ContentController {
 
     private ContentRepository contentRepository;
