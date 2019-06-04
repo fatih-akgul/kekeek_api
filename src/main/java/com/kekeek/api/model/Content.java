@@ -4,10 +4,15 @@ import com.kekeek.api.type.ContentStatusType;
 import com.kekeek.api.type.ContentType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -45,4 +50,12 @@ public class Content extends KekeekModel {
 
     @Length(max=30)
     private String identifier;
+
+    @Column(name = "content_location")
+    private String contentLocation;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "parent_content_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Content parentContent;
 }

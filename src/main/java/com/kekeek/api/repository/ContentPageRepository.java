@@ -9,8 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface ContentPageRepository extends JpaRepository<ContentPage, Long> {
-//    List<ContentPage> findByContentId(Long contentId);
-
     List<ContentPage> findByContentIdentifier(String contentIdentifier);
 
     Optional<ContentPage> findByIdentifier(String identifier);

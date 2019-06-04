@@ -20,7 +20,8 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.kekeek'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.11'
+targetCompatibility = '1.11'
 
 repositories {
 	mavenCentral()
@@ -39,6 +40,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// https://projectlombok.org
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
