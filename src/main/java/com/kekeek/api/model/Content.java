@@ -54,7 +54,7 @@ public class Content extends KekeekModel {
     @Column(name = "content_location")
     private String contentLocation;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_content_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Content parentContent;
