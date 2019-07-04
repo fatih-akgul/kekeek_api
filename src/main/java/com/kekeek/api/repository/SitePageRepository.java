@@ -1,14 +1,14 @@
 package com.kekeek.api.repository;
 
-import com.kekeek.api.model.Page;
+import com.kekeek.api.model.SitePage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface PageRepository extends JpaRepository<Page, Long> {
-    Optional<Page> findByIdentifier(String identifier);
+public interface SitePageRepository extends JpaRepository<SitePage, Long> {
+    Optional<SitePage> findByIdentifier(String identifier);
 
     boolean existsByIdentifier(String identifier);
 }

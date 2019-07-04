@@ -1,8 +1,19 @@
 # KEKEEK API
-This project implements a REST API to be used as back-end for our language and travel websites. 
+This project implements a REST API to be used as back-end for our travel guide websites. 
 
 Models
 --
-- Page: Pages on the site, mainly for the travel sites 
+- Page: Pages on the site
 - Content: A content element. This can fill a section on the page or an article. 
 - ContentPage: Pages of a content element. Articles etc can have multiple pages.
+
+Environment variables required:
+--
+- KEKEEK_DB_USERNAME
+- KEKEEK_DB_PASSWORD
+- KEKEEK_DB_URL (i.e. jdbc:postgresql://localhost:5432/kekeek)
+- API_PASSWORD
+
+Apply Flyway migrations:
+--
+./gradlew flywayMigrate -Dflyway.configFiles=flyway.properties

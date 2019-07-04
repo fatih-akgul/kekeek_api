@@ -1,8 +1,8 @@
 package com.kekeek.api.controller;
 
 import com.kekeek.api.exception.ResourceNotFoundException;
-import com.kekeek.api.model.Page;
-import com.kekeek.api.repository.PageRepository;
+import com.kekeek.api.model.SitePage;
+import com.kekeek.api.repository.SitePageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/pages")
-public class PageController {
+@RequestMapping("/site_pages")
+public class SitePageController {
 
-    private PageRepository pageRepository;
+    private SitePageRepository pageRepository;
 
     @Autowired
-    public PageController(PageRepository pageRepository) {
+    public SitePageController(SitePageRepository pageRepository) {
         this.pageRepository = pageRepository;
     }
 
@@ -34,20 +34,20 @@ public class PageController {
     }
 
     @PostMapping
-    public Page createPage(@Valid @RequestBody Page page) {
+    public SitePage createPage(@Valid @RequestBody SitePage page) {
         return pageRepository.save(page);
     }
 
     @GetMapping("/{pageIdentifier}")
-    public Page getPage(@PathVariable String pageIdentifier) {
+    public SitePage getPage(@PathVariable String pageIdentifier) {
         return pageRepository.findByIdentifier(pageIdentifier)
                 .orElseThrow(() -> new ResourceNotFoundException("Site page not found with id " + pageIdentifier));
     }
 
     @PutMapping("/{pageIdentifier}")
-    public Page updatePage(@PathVariable String pageIdentifier,
-                           @Valid @RequestBody Page pageRequest) {
-        Page page = pageRepository.findByIdentifier(pageIdentifier)
+    public SitePage updatePage(@PathVariable String pageIdentifier,
+                           @Valid @RequestBody SitePage pageRequest) {
+        SitePage page = pageRepository.findByIdentifier(pageIdentifier)
                 .orElseThrow(() -> new ResourceNotFoundException("Site page not found with id " + pageIdentifier));
         page.setTitle(pageRequest.getTitle());
         return pageRepository.save(page);

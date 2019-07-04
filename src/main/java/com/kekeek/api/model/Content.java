@@ -69,4 +69,9 @@ public class Content extends KekeekModel {
 
     @Column(name = "img_description")
     private String imageDescription;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "page_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private SitePage page;
 }
