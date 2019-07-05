@@ -11,4 +11,6 @@ public interface SitePageRepository extends JpaRepository<SitePage, Long> {
     Optional<SitePage> findByIdentifier(String identifier);
 
     boolean existsByIdentifier(String identifier);
+
+    Long findIdByIdentifier(String identifier);
 }

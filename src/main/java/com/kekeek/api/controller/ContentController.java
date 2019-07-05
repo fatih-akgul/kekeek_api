@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/contents")
@@ -62,7 +62,7 @@ public class ContentController {
     }
 
     @GetMapping("/{contentIdentifier}/pages")
-    public List<ContentPage> getPagesByContentId(@PathVariable String contentIdentifier) {
+    public Collection<ContentPage> getPagesByContentId(@PathVariable String contentIdentifier) {
         return pageRepository.findByContentIdentifier(contentIdentifier);
     }
 
