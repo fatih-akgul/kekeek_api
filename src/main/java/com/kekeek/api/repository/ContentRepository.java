@@ -9,9 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface ContentRepository extends JpaRepository<Content, Long> {
-    Optional<Content> findByIdentifier(String identifier);
-
-    boolean existsByIdentifier(String identifier);
-
     Collection<Content> findByPageIdentifier(String sitePageIdentifier);
+
+    Optional<Content> findByPageIdentifierAndIdentifier(String pageIdentifier, String identifier);
+
+    boolean existsByPageIdentifierAndIdentifier(String pageIdentifier, String identifier);
+
+    Long findIdByPageIdentifierAndIdentifier(String pageIdentifier, String identifier);
 }

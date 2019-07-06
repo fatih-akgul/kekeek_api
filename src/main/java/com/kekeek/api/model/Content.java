@@ -1,7 +1,5 @@
 package com.kekeek.api.model;
 
-import com.kekeek.api.type.ContentStatusType;
-import com.kekeek.api.type.ContentType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.OnDelete;
@@ -14,13 +12,25 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "content")
+@Table(
+        name = "content",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"page_id", "identifier"})}
+)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Content extends KekeekModel {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "page_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private SitePage page;
+
+    @Length(max = 30)
+    private String identifier;
+
     @Length(max = 255)
     private String title;
 
@@ -30,48 +40,20 @@ public class Content extends KekeekModel {
     @Column(columnDefinition = "text")
     private String snippet;
 
-    @Column(name = "page_count")
-    private Integer pageCount;
+    @Column(name = "page_number")
+    private Integer pageNumber = 1;
+
+    @Column(name = "content_text", columnDefinition = "text")
+    private String contentText;
 
     @NotBlank
     @Length(min = 2, max = 2)
     private String language;
 
-    @Column(name = "content_type")
-    private ContentType contentType;
-
-    private ContentStatusType status;
-
-    @Column(name = "comment_count")
-    private Integer commentCount;
-
-    @Column(name = "like_count")
-    private Integer likeCount;
-
-    @Length(max = 30)
-    private String identifier;
-
-    @Column(name = "content_location")
-    private String contentLocation;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_content_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Content parentContent;
-
-    @Column(name = "img_full")
+    @Column(name = "image")
     @Length(max = 255)
-    private String fullImage;
+    private String image;
 
-    @Column(name = "img_thumbnail")
-    @Length(max = 255)
-    private String thumbnailImage;
-
-    @Column(name = "img_description")
+    @Column(name = "image_description")
     private String imageDescription;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "page_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private SitePage page;
 }

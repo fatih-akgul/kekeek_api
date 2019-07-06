@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SitePageRepository extends JpaRepository<SitePage, Long> {
+public interface PageRepository extends JpaRepository<SitePage, Long> {
     Optional<SitePage> findByIdentifier(String identifier);
 
     boolean existsByIdentifier(String identifier);
