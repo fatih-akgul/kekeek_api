@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/site_pages")
+@RequestMapping("/pages")
 public class PageController {
 
     private PageRepository pageRepository;
