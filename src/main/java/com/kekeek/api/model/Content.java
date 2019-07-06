@@ -48,7 +48,7 @@ public class Content extends KekeekModel {
 
     @NotBlank
     @Length(min = 2, max = 2)
-    private String language;
+    private String language = "en";
 
     @Column(name = "image")
     @Length(max = 255)

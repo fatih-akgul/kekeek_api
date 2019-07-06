@@ -46,17 +46,17 @@ public class SitePage extends KekeekModel {
     @Column(name = "content_type")
     private String contentType = "page";
 
-    private String status;
+    private String status = "active";
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "page_keywords", joinColumns = @JoinColumn(name = "page_id"))
     private Collection<String> keywords = new HashSet<>();
 
     @Column(name = "comment_count")
-    private Integer commentCount;
+    private Integer commentCount = 0;
 
     @Column(name = "like_count")
-    private Integer likeCount;
+    private Integer likeCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_page_id")
