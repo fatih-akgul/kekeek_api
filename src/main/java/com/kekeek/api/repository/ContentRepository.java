@@ -12,8 +12,4 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     Collection<Content> findByPageIdentifier(String sitePageIdentifier);
 
     Optional<Content> findByPageIdentifierAndIdentifier(String pageIdentifier, String identifier);
-
-    boolean existsByPageIdentifierAndIdentifier(String pageIdentifier, String identifier);
-
-    Long findIdByPageIdentifierAndIdentifier(String pageIdentifier, String identifier);
 }

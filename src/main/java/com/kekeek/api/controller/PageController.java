@@ -56,14 +56,15 @@ public class PageController {
     @PutMapping("/{pageIdentifier}")
     public SitePage replacePage(@PathVariable String pageIdentifier,
                                 @Valid @RequestBody SitePage page) {
-        if (!pageRepository.existsByIdentifier(pageIdentifier)) {
-            throw new ResourceNotFoundException("Page not found: " + pageIdentifier);
-        }
-        Long id = pageRepository.findIdByIdentifier(pageIdentifier);
-        page.setIdentifier(pageIdentifier);
-        page.setId(id);
+        return pageRepository.findByIdentifier(pageIdentifier)
+                .map(existingPage -> {
+                    Long id = existingPage.getId();
+                    page.setId(id);
+                    page.setIdentifier(pageIdentifier);
 
-        return pageRepository.save(page);
+                    return pageRepository.save(page);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Page not found: " + pageIdentifier));
     }
 
     @PatchMapping("/{pageIdentifier}")
@@ -128,22 +129,23 @@ public class PageController {
                 );
         content.setPage(parentPage);
 
-        if (!contentRepository.existsByPageIdentifierAndIdentifier(pageIdentifier, contentIdentifier)) {
-            throw new ResourceNotFoundException(
-                    "Content not found: " + pageIdentifier + "/" + content.getIdentifier());
-        }
-        content.setIdentifier(contentIdentifier);
-        Long contentId = contentRepository.findIdByPageIdentifierAndIdentifier(pageIdentifier, contentIdentifier);
-        content.setId(contentId);
+        return contentRepository.findByPageIdentifierAndIdentifier(pageIdentifier, contentIdentifier)
+                .map(existingContent -> {
+                    Long contentId = existingContent.getId();
+                    content.setIdentifier(contentIdentifier);
+                    content.setId(contentId);
 
-        return contentRepository.save(content);
+                    return contentRepository.save(content);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Content not found: " + pageIdentifier + "/" + content.getIdentifier()));
     }
 
     @PatchMapping("/{pageIdentifier}/contents/{contentIdentifier}")
     public Content updateContent(@PathVariable String pageIdentifier,
                                  @PathVariable String contentIdentifier,
                                  @Valid @RequestBody Map<String, Object> updates) {
-        if (!pageRepository.existsByIdentifier(pageIdentifier)) {
+        if (pageRepository.existsByIdentifier(pageIdentifier)) {
             throw new ResourceNotFoundException("Page not found: " + pageIdentifier);
         }
 
@@ -163,9 +165,9 @@ public class PageController {
     }
 
     @DeleteMapping("/{pageIdentifier}/contents/{contentIdentifier}")
-    public ResponseEntity<?> deletePage(@PathVariable String pageIdentifier,
+    public ResponseEntity<?> deleteContent(@PathVariable String pageIdentifier,
                                         @PathVariable String contentIdentifier) {
-        if (!pageRepository.existsByIdentifier(pageIdentifier)) {
+        if (pageRepository.existsByIdentifier(pageIdentifier)) {
             throw new ResourceNotFoundException("Page not found: " + pageIdentifier);
         }
 
