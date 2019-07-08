@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(
@@ -46,7 +45,6 @@ public class Content extends KekeekModel {
     @Column(name = "content_text", columnDefinition = "text")
     private String contentText;
 
-    @NotBlank
     @Length(min = 2, max = 2)
     private String language = "en";
 
