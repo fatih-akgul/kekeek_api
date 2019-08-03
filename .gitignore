@@ -29,7 +29,7 @@
 /.nb-gradle/
 
 ### Docker ###
-.env
+postgres.env
 
 ### Custom ###
 flyway.properties
