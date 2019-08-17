@@ -44,7 +44,15 @@ public class PageController {
 
     @PostMapping
     public SitePage createPage(@Valid @RequestBody SitePage page) {
+        fillAutoFields(page);
         return pageRepository.save(page);
+    }
+
+    private void fillAutoFields(SitePage page) {
+        if (page.getParentPageIdentifier() != null) {
+            var parentPage = pageRepository.findByIdentifier(page.getParentPageIdentifier());
+            parentPage.ifPresent(page::setParentPageId);
+        }
     }
 
     @GetMapping("/{pageIdentifier}")
@@ -61,6 +69,7 @@ public class PageController {
                     Long id = existingPage.getId();
                     page.setId(id);
                     page.setIdentifier(pageIdentifier);
+                    fillAutoFields(page);
 
                     return pageRepository.save(page);
                 })
@@ -78,7 +87,7 @@ public class PageController {
                             ReflectionUtils.setField(field, existingPage, v);
                         }
                     });
-
+                    fillAutoFields(existingPage);
                     return pageRepository.save(existingPage);
                 }).orElseThrow(() -> new ResourceNotFoundException(
                         "Page not found: " + pageIdentifier

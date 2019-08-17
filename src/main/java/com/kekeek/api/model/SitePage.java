@@ -1,19 +1,13 @@
 package com.kekeek.api.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
@@ -62,6 +56,10 @@ public class SitePage extends KekeekModel {
     @JoinColumn(name = "parent_page_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private SitePage parentPageId;
+
+    @Transient // Exclude field
+    @JsonInclude // Still include in Json
+    private String parentPageIdentifier;
 
     @Column(name = "image")
     @Length(max = 255)
