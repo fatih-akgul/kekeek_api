@@ -67,4 +67,6 @@ public class SitePage extends KekeekModel {
 
     @Column(name = "image_description")
     private String imageDescription;
+
+    private Integer sequence = 1;
 }

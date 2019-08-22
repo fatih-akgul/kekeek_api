@@ -1,0 +1,2 @@
+ALTER TABLE page
+    ADD COLUMN sequence INTEGER DEFAULT 1;

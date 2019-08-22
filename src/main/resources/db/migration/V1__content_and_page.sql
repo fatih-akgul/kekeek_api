@@ -66,4 +66,5 @@ alter table page
 alter table page_keywords
     add constraint FK3m3fyc9nv5ecwa74feaubeb3q
         foreign key (page_id)
-            references page;
+            references page
+            on delete cascade;
