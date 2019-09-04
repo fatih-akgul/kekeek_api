@@ -1,14 +1,15 @@
 package com.kekeek.api.controller;
 
 import com.kekeek.api.exception.ResourceNotFoundException;
-import com.kekeek.api.model.Content;
-import com.kekeek.api.model.SitePage;
+import com.kekeek.api.model.*;
 import com.kekeek.api.repository.ContentRepository;
+import com.kekeek.api.repository.PageHierarchyRepository;
 import com.kekeek.api.repository.PageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,11 +31,13 @@ public class PageController {
 
     private PageRepository pageRepository;
     private ContentRepository contentRepository;
+    private PageHierarchyRepository pageHierarchyRepository;
 
     @Autowired
-    public PageController(PageRepository pageRepository, ContentRepository contentRepository) {
+    public PageController(PageRepository pageRepository, ContentRepository contentRepository, PageHierarchyRepository pageHierarchyRepository) {
         this.pageRepository = pageRepository;
         this.contentRepository = contentRepository;
+        this.pageHierarchyRepository = pageHierarchyRepository;
     }
 
     @GetMapping
@@ -44,16 +47,38 @@ public class PageController {
 
     @PostMapping
     public SitePage createPage(@Valid @RequestBody SitePage page) {
-        fillAutoFields(page);
+//        fillAutoFields(page);
         return pageRepository.save(page);
     }
 
-    private void fillAutoFields(SitePage page) {
-        if (page.getParentPageIdentifier() != null) {
-            var parentPage = pageRepository.findByIdentifier(page.getParentPageIdentifier());
-            parentPage.ifPresent(page::setParentPageId);
+    @PostMapping("/hierarchy")
+    public PageHierarchy createPageRelationship(@Valid @RequestBody PageHierarchyRequest pageHierarchyRequest) {
+        String childIdentifier = pageHierarchyRequest.getChildIdentifier();
+        String parentIdentifier = pageHierarchyRequest.getParentIdentifier();
+        Integer sequence = pageHierarchyRequest.getSequence();
+        if (!StringUtils.isEmpty(childIdentifier) && !StringUtils.isEmpty(parentIdentifier)) {
+            var parentPage = pageRepository.findByIdentifier(parentIdentifier);
+            var childPage = pageRepository.findByIdentifier(childIdentifier);
+
+            if (childPage.isPresent() && parentPage.isPresent()) {
+                PageHierarchy pageHierarchy = new PageHierarchy();
+                pageHierarchy.setChild(childPage.get());
+                pageHierarchy.setParent(parentPage.get());
+                pageHierarchy.setSequence(sequence);
+
+                return pageHierarchyRepository.save(pageHierarchy);
+            }
         }
+
+        return null;
     }
+
+//    private void fillAutoFields(SitePage page) {
+//        if (page.getParentPageIdentifier() != null) {
+//            var parentPage = pageRepository.findByIdentifier(page.getParentPageIdentifier());
+//            parentPage.ifPresent(page::setParentPageId);
+//        }
+//    }
 
     @GetMapping("/{pageIdentifier}")
     public SitePage getPage(@PathVariable String pageIdentifier) {
@@ -69,7 +94,7 @@ public class PageController {
                     Long id = existingPage.getId();
                     page.setId(id);
                     page.setIdentifier(pageIdentifier);
-                    fillAutoFields(page);
+//                    fillAutoFields(page);
 
                     return pageRepository.save(page);
                 })
@@ -87,7 +112,7 @@ public class PageController {
                             ReflectionUtils.setField(field, existingPage, v);
                         }
                     });
-                    fillAutoFields(existingPage);
+//                    fillAutoFields(existingPage);
                     return pageRepository.save(existingPage);
                 }).orElseThrow(() -> new ResourceNotFoundException(
                         "Page not found: " + pageIdentifier
