@@ -61,9 +61,15 @@ public class PageController {
             var childPage = pageRepository.findByIdentifier(childIdentifier);
 
             if (childPage.isPresent() && parentPage.isPresent()) {
+                SitePage parent = parentPage.get();
+                SitePage child = childPage.get();
+
+                PageHierarchyKey key = new PageHierarchyKey();
+                key.setParentId(parent.getId());
+                key.setChildId(child.getId());
+
                 PageHierarchy pageHierarchy = new PageHierarchy();
-                pageHierarchy.setChild(childPage.get());
-                pageHierarchy.setParent(parentPage.get());
+                pageHierarchy.setId(key);
                 pageHierarchy.setSequence(sequence);
 
                 return pageHierarchyRepository.save(pageHierarchy);
