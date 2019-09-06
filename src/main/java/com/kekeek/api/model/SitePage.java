@@ -1,5 +1,6 @@
 package com.kekeek.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -76,8 +77,10 @@ public class SitePage extends KekeekModel {
     private Integer sequence = 1;
 
     @OneToMany(mappedBy = "parent")
+    @JsonIgnore
     Set<PageHierarchy> parents;
 
     @OneToMany(mappedBy = "child")
+    @JsonIgnore
     Set<PageHierarchy> children;
 }

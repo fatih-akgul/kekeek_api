@@ -139,6 +139,11 @@ public class PageController {
         return contentRepository.findByPageIdentifier(pageIdentifier);
     }
 
+    @GetMapping("/{pageIdentifier}/children")
+    public Collection<SitePage> getChildren(@PathVariable String pageIdentifier) {
+        return pageRepository.findChildren(pageIdentifier);
+    }
+
     @PostMapping("/{pageIdentifier}/contents")
     public Content createContent(@PathVariable String pageIdentifier,
                                  @Valid @RequestBody Content content) {
