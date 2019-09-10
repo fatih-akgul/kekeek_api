@@ -7,10 +7,8 @@ create table content (
                          content_text text,
                          description text,
                          identifier varchar(30),
-                         image varchar(255),
-                         image_description varchar(255),
                          language varchar(2),
-                         page_number int4,
+                         sequence int4,
                          snippet text,
                          title varchar(255),
                          page_id int8 not null,
@@ -64,14 +62,17 @@ alter table content
 alter table page_keywords
     add constraint FK3m3fyc9nv5ecwa74feaubeb3q
         foreign key (page_id)
-            references page;
+            references page
+            on delete cascade;
 
 alter table page_hierarchy
     add constraint FKkjc14sfbte2rsi1w3ix37i8ps
         foreign key (child_id)
-            references page;
+            references page
+            on delete cascade;
 
 alter table page_hierarchy
     add constraint FKcc1hjpe1uynbk94tjuyj0b4af
         foreign key (parent_id)
-            references page;
+            references page
+            on delete cascade;
