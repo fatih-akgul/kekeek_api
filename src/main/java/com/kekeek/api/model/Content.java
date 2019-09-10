@@ -39,19 +39,11 @@ public class Content extends KekeekModel {
     @Column(columnDefinition = "text")
     private String snippet;
 
-    @Column(name = "page_number")
-    private Integer pageNumber = 1;
+    private Integer sequence = 1;
 
     @Column(name = "content_text", columnDefinition = "text")
     private String contentText;
 
     @Length(min = 2, max = 2)
     private String language = "en";
-
-    @Column(name = "image")
-    @Length(max = 255)
-    private String image;
-
-    @Column(name = "image_description")
-    private String imageDescription;
 }

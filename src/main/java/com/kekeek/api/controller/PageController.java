@@ -10,20 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/pages")
@@ -142,6 +133,37 @@ public class PageController {
     @GetMapping("/{pageIdentifier}/children")
     public Collection<SitePage> getChildren(@PathVariable String pageIdentifier) {
         return pageRepository.findChildren(pageIdentifier);
+    }
+
+    @GetMapping("/{pageIdentifier}/parents")
+    public Collection<SitePage> getParents(@PathVariable String pageIdentifier) {
+        return pageRepository.findParents(pageIdentifier);
+    }
+
+    @GetMapping("/{pageIdentifier}/breadcrumbs")
+    public Collection<SitePage> getBreadcrumbs(@PathVariable String pageIdentifier) {
+        List<SitePage> hierarchy = new ArrayList<>();
+
+        Optional<SitePage> page = pageRepository.findByIdentifier(pageIdentifier);
+        if (page.isPresent()) {
+            hierarchy.add(page.get());
+            SitePage parent = getParent(pageIdentifier);
+            while (parent != null) {
+                hierarchy.add(parent);
+                parent = getParent(parent.getIdentifier());
+            }
+            Collections.reverse(hierarchy);
+        }
+
+        return hierarchy;
+    }
+
+    private SitePage getParent(String pageIdentifier) {
+        Collection<SitePage> parents = pageRepository.findParents(pageIdentifier);
+        if (parents.size() > 0) {
+            return parents.iterator().next();
+        }
+        return null;
     }
 
     @PostMapping("/{pageIdentifier}/contents")

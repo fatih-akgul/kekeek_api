@@ -15,7 +15,7 @@ public class PageHierarchy {
     @MapsId("child_id")
     @JoinColumn(name = "child_id")
     SitePage child;
- 
+
     @ManyToOne
     @MapsId("parent_id")
     @JoinColumn(name = "parent_id")
