@@ -140,6 +140,11 @@ public class PageController {
         return pageRepository.findParents(pageIdentifier);
     }
 
+    @GetMapping("/{pageIdentifier}/parent")
+    public SitePage getParent(@PathVariable String pageIdentifier) {
+        return getParentPage(pageIdentifier);
+    }
+
     @GetMapping("/{pageIdentifier}/breadcrumbs")
     public Collection<SitePage> getBreadcrumbs(@PathVariable String pageIdentifier) {
         List<SitePage> hierarchy = new ArrayList<>();
@@ -147,10 +152,10 @@ public class PageController {
         Optional<SitePage> page = pageRepository.findByIdentifier(pageIdentifier);
         if (page.isPresent()) {
             hierarchy.add(page.get());
-            SitePage parent = getParent(pageIdentifier);
+            SitePage parent = getParentPage(pageIdentifier);
             while (parent != null) {
                 hierarchy.add(parent);
-                parent = getParent(parent.getIdentifier());
+                parent = getParentPage(parent.getIdentifier());
             }
             Collections.reverse(hierarchy);
         }
@@ -158,7 +163,7 @@ public class PageController {
         return hierarchy;
     }
 
-    private SitePage getParent(String pageIdentifier) {
+    private SitePage getParentPage(String pageIdentifier) {
         Collection<SitePage> parents = pageRepository.findParents(pageIdentifier);
         if (parents.size() > 0) {
             return parents.iterator().next();
