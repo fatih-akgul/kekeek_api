@@ -132,7 +132,12 @@ public class PageController {
 
     @GetMapping("/{pageIdentifier}/children")
     public Collection<SitePage> getChildren(@PathVariable String pageIdentifier) {
-        return pageRepository.findChildren(pageIdentifier);
+        return pageRepository.findChildren(pageIdentifier, "article");
+    }
+
+    @GetMapping("/{pageIdentifier}/pages")
+    public Collection<SitePage> getPages(@PathVariable String pageIdentifier) {
+        return pageRepository.findChildren(pageIdentifier, "article-page");
     }
 
     @GetMapping("/{pageIdentifier}/parents")
