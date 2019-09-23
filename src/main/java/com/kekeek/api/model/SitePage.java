@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -19,7 +17,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SitePage extends KekeekModel {
-    @Length(max = 30)
+    @Length(max = 63)
     @Column(unique = true)
     private String identifier;
 

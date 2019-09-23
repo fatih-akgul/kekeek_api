@@ -27,7 +27,7 @@ public class Content extends KekeekModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private SitePage page;
 
-    @Length(max = 30)
+    @Length(max = 63)
     private String identifier;
 
     @Length(max = 255)
