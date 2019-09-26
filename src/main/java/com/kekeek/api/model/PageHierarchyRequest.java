@@ -2,8 +2,6 @@ package com.kekeek.api.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
-
 @Data
 public class PageHierarchyRequest {
     private String childIdentifier;
@@ -11,4 +9,6 @@ public class PageHierarchyRequest {
     private String parentIdentifier;
  
     private Integer sequence;
+
+    private Boolean primary;
 }

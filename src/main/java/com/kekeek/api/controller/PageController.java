@@ -47,6 +47,8 @@ public class PageController {
         String childIdentifier = pageHierarchyRequest.getChildIdentifier();
         String parentIdentifier = pageHierarchyRequest.getParentIdentifier();
         Integer sequence = pageHierarchyRequest.getSequence();
+        Boolean primary = pageHierarchyRequest.getPrimary();
+
         if (!StringUtils.isEmpty(childIdentifier) && !StringUtils.isEmpty(parentIdentifier)) {
             var parentPage = pageRepository.findByIdentifier(parentIdentifier);
             var childPage = pageRepository.findByIdentifier(childIdentifier);
@@ -62,6 +64,7 @@ public class PageController {
                 PageHierarchy pageHierarchy = new PageHierarchy();
                 pageHierarchy.setId(key);
                 pageHierarchy.setSequence(sequence);
+                pageHierarchy.setPrimary(primary);
 
                 return pageHierarchyRepository.save(pageHierarchy);
             }
@@ -169,11 +172,8 @@ public class PageController {
     }
 
     private SitePage getParentPage(String pageIdentifier) {
-        Collection<SitePage> parents = pageRepository.findParents(pageIdentifier);
-        if (parents.size() > 0) {
-            return parents.iterator().next();
-        }
-        return null;
+        Optional<SitePage> parent = pageRepository.findPrimaryParent(pageIdentifier);
+        return parent.orElse(null);
     }
 
     @PostMapping("/{pageIdentifier}/contents")

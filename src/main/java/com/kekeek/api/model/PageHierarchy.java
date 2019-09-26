@@ -22,4 +22,7 @@ public class PageHierarchy {
     SitePage parent;
  
     private Integer sequence;
+
+    @Column(name = "is_primary")
+    private Boolean primary = true;
 }

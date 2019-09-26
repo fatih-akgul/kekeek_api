@@ -20,4 +20,7 @@ public interface PageRepository extends JpaRepository<SitePage, Long> {
 
     @Query("SELECT p FROM SitePage c JOIN c.children pc JOIN pc.parent p WHERE c.identifier = :identifier ORDER BY pc.sequence")
     Collection<SitePage> findParents(@Param("identifier") String identifier);
+
+    @Query("SELECT p FROM SitePage c JOIN c.children pc JOIN pc.parent p WHERE c.identifier = :identifier AND pc.primary = true ORDER BY pc.sequence")
+    Optional<SitePage> findPrimaryParent(String identifier);
 }
