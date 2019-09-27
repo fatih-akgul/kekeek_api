@@ -6,6 +6,7 @@ import com.kekeek.api.repository.ContentRepository;
 import com.kekeek.api.repository.PageHierarchyRepository;
 import com.kekeek.api.repository.PageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
@@ -32,13 +33,17 @@ public class PageController {
     }
 
     @GetMapping
-    public org.springframework.data.domain.Page getPages(Pageable pageable) {
+    public Page getPages(Pageable pageable) {
         return pageRepository.findAll(pageable);
+    }
+
+    @GetMapping("/articles")
+    public Collection<SitePage> getArticles() {
+        return pageRepository.findByContentTypeOrderByTitleAsc("article");
     }
 
     @PostMapping
     public SitePage createPage(@Valid @RequestBody SitePage page) {
-//        fillAutoFields(page);
         return pageRepository.save(page);
     }
 
