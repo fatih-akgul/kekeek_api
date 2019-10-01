@@ -78,13 +78,6 @@ public class PageController {
         return null;
     }
 
-//    private void fillAutoFields(SitePage page) {
-//        if (page.getParentPageIdentifier() != null) {
-//            var parentPage = pageRepository.findByIdentifier(page.getParentPageIdentifier());
-//            parentPage.ifPresent(page::setParentPageId);
-//        }
-//    }
-
     @GetMapping("/{pageIdentifier}")
     public SitePage getPage(@PathVariable String pageIdentifier) {
         return pageRepository.findByIdentifier(pageIdentifier)
@@ -117,7 +110,6 @@ public class PageController {
                             ReflectionUtils.setField(field, existingPage, v);
                         }
                     });
-//                    fillAutoFields(existingPage);
                     return pageRepository.save(existingPage);
                 }).orElseThrow(() -> new ResourceNotFoundException(
                         "Page not found: " + pageIdentifier
