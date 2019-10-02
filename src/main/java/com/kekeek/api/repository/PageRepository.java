@@ -25,4 +25,6 @@ public interface PageRepository extends JpaRepository<SitePage, Long> {
     Optional<SitePage> findPrimaryParent(String identifier);
 
     Collection<SitePage> findByContentTypeOrderByTitleAsc(String contentType);
+
+    Collection<SitePage> findByContentTypeAndTopLevelOrderBySequenceAsc(String contentType, Boolean topLevel);
 }

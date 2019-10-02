@@ -52,11 +52,6 @@ public class SitePage extends KekeekModel {
     @Column(name = "like_count")
     private Integer likeCount = 0;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "parent_page_id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private SitePage parentPageId;
-
     @Transient // Exclude field
     @JsonInclude // Still include in Json
     private String parentPageIdentifier;
@@ -73,6 +68,9 @@ public class SitePage extends KekeekModel {
     private String imageDescription;
 
     private Integer sequence = 1;
+
+    @Column(name = "top_level")
+    private Boolean topLevel = Boolean.FALSE;
 
     @OneToMany(mappedBy = "parent")
     @JsonIgnore

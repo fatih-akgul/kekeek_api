@@ -42,6 +42,11 @@ public class PageController {
         return pageRepository.findByContentTypeOrderByTitleAsc("article");
     }
 
+    @GetMapping("/menu-pages")
+    public Collection<SitePage> getTopLevelArticles() {
+        return pageRepository.findByContentTypeAndTopLevelOrderBySequenceAsc("article", Boolean.TRUE);
+    }
+
     @PostMapping
     public SitePage createPage(@Valid @RequestBody SitePage page) {
         return pageRepository.save(page);
