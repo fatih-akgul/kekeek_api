@@ -17,7 +17,7 @@ import java.util.Date;
         allowGetters = true
 )
 @Data
-public abstract class KekeekModel implements Serializable {
+public abstract class BaseModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", updatable = false, nullable = false)

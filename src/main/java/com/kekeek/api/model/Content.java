@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 )
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Content extends KekeekModel {
+public class Content extends BaseModel {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "page_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

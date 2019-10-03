@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "email")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Email extends KekeekModel {
+public class Email extends BaseModel {
     @Length(max=255)
     @Column(name = "from_email")
     private String fromEmail;

@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "page")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SitePage extends KekeekModel {
+public class SitePage extends BaseModel {
     @Length(max = 63)
     @Column(unique = true)
     private String identifier;
