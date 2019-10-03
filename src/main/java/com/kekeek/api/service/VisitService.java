@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -19,9 +20,10 @@ public class VisitService {
     }
 
     @Scheduled(fixedDelay = 3_600_000, initialDelay = 120_000)
-    private void clearStaleVisits() {
+    void clearStaleVisits() {
         LocalDateTime cutoffDate = LocalDateTime.now().minusDays(7);
-        visitRepository.deleteVisitsOlderThan(cutoffDate);
+        Date date = Date.from(cutoffDate.atZone(ZoneId.systemDefault()).toInstant());
+        visitRepository.deleteVisitsOlderThan(date);
     }
 
     public Visit addVisit(Visit visit) {

@@ -6,13 +6,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long> {
 
     @Modifying
     @Query("DELETE FROM Visit v WHERE v.createdAt < :date")
-    void deleteVisitsOlderThan(@Param("date") LocalDateTime date);
+    @Transactional
+    void deleteVisitsOlderThan(@Param("date") Date date);
 }
