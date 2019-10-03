@@ -43,8 +43,8 @@ public class VisitService {
     private Map<String, Integer> groupVisitsByIdentifier(Collection<Visit> visits) {
         Map<String, Integer> collapsedVisits = new HashMap<>();
         for (Visit visit: visits) {
-            collapsedVisits.putIfAbsent(visit.getIdentifier(), 0);
-            collapsedVisits.computeIfPresent(visit.getIdentifier(), (k, v) -> v + visit.getCounter());
+            collapsedVisits.putIfAbsent(visit.getIdentifier() + "|" + visit.getTitle(), 0);
+            collapsedVisits.computeIfPresent(visit.getIdentifier() + "|" + visit.getTitle(), (k, v) -> v + visit.getCounter());
         }
 
         return collapsedVisits;
@@ -72,7 +72,9 @@ public class VisitService {
                     break outerLoop;
                 }
                 Visit visit = new Visit();
-                visit.setIdentifier(identifier);
+                String[] components = identifier.split("\\|");
+                visit.setIdentifier(components[0]);
+                visit.setTitle(components[1]);
                 visit.setCounter(counter);
                 topVisits.add(visit);
                 index++;

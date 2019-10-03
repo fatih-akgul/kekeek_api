@@ -15,5 +15,8 @@ public class Visit extends BaseModel {
     @Length(max = 63)
     private String identifier;
 
+    @Length(max = 255)
+    private String title;
+
     private Integer counter = 0;
 }
