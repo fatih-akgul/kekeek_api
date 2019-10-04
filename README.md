@@ -9,9 +9,9 @@ Models
 
 Environment variables required:
 --
-- KEKEEK_DB_USERNAME
-- KEKEEK_DB_PASSWORD
-- KEKEEK_DB_URL (i.e. jdbc:postgresql://localhost:5432/kekeek)
+- DB_USERNAME
+- DB_PASSWORD
+- DB_URL (i.e. jdbc:postgresql://localhost:5432/kekeek)
 - API_PASSWORD
 
 Apply Flyway migrations:
