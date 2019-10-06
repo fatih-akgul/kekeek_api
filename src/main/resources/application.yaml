@@ -1,0 +1,41 @@
+server:
+  port: 3080
+
+spring:
+  ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    show-sql: false
+    hibernate:
+      # Hibernate ddl auto (create, create-drop, validate, update, none)
+      # create: Create the schema and destroy previous data
+      # create-drop: Create and then destroy the schema at the end of the session
+      # none: Disable DDL handling
+      # update: Update the schema if necessary
+      # validate: Validate the schema, make no changes to the database
+      ddl-auto: validate
+    properties:
+      hibernate:
+        # The SQL dialect makes Hibernate generate better SQL for the chosen database
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        hbm2ddl:
+          delimiter: ;
+        temp:
+          use_jdbc_metadata_defaults: false
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: create.sql
+
+  jackson:
+    serialization:
+      # Don't fail on empty/private fields
+      FAIL_ON_EMPTY_BEANS: false
