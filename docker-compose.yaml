@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   postgres:
+    container_name: kekeek-postgres
     image: postgres:11.1
     ports:
       - 5432:5432
