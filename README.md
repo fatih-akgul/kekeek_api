@@ -17,3 +17,10 @@ Environment variables required:
 Apply Flyway migrations:
 --
 ./gradlew flywayMigrate -Dflyway.configFiles=flyway.properties
+
+Build Docker Container:
+--
+- Set environment variables
+- ./gradlew build
+- docker build -t "travel-api" .
+- docker run -p 3080:3080 --env-file app.env travel-api
