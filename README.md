@@ -9,9 +9,10 @@ Models
 
 Environment variables required:
 --
+- PORT: Port number that the application will listen to
+- DB_URL (i.e. jdbc:postgresql://localhost:5432/kekeek)
 - DB_USERNAME
 - DB_PASSWORD
-- DB_URL (i.e. jdbc:postgresql://localhost:5432/kekeek)
 - API_PASSWORD
 
 Apply Flyway migrations:

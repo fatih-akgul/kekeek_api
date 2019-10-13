@@ -1,5 +1,5 @@
 server:
-  port: 3080
+  port: ${PORT}
 
 spring:
   ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
