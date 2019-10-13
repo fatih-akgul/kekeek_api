@@ -28,12 +28,7 @@
 /nbdist/
 /.nb-gradle/
 
-### Docker ###
-postgres.env
-
 ### Custom ###
-flyway.properties
 create.sql
 QuestLog.md
-tfy*
-pfv*
+env.*
