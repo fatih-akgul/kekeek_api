@@ -21,7 +21,7 @@ public class VisitService {
 
     @Scheduled(fixedDelay = 3_600_000, initialDelay = 120_000)
     void clearStaleVisits() {
-        LocalDateTime cutoffDate = LocalDateTime.now().minusDays(7);
+        LocalDateTime cutoffDate = LocalDateTime.now().minusDays(1);
         Date date = Date.from(cutoffDate.atZone(ZoneId.systemDefault()).toInstant());
         visitRepository.deleteVisitsOlderThan(date);
     }
